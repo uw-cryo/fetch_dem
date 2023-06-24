@@ -3,6 +3,7 @@ Tool to automatically download and process Global DEMs via opentopography api
 
 
 **Usage**
+
 Please use the below command to download Global DEMs hosted on [opentopography](https://portal.opentopography.org/datasets?minX=-144.3169420909554&minY=63.0617743330481&maxX=-144.2537592884724&maxY=63.09891026182693&group=global) for your region of interest.
 - All global DEMs hosted on opentopography can be specified, such as 'COP30','COP90','SRTMGL1_E','SRTMGL1','SRTM_GL3','NASADEM'
 - The program currently expects either *a shapefile of the region of interest (bounds_shp)*, or *bounds in lat and lon in format as  'minx miny maxx maxy'*
