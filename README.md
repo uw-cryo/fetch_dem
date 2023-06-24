@@ -32,5 +32,6 @@ optional arguments:
 - opentopography apikey
 
 **Authors**
+
 [Shashank Bhushan](https://github.com/ShashankBice), [David Shean](https://github.com/dshean), [Scott Henderson](https://github.com/scottyhq)
 
