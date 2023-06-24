@@ -6,7 +6,7 @@ Tool to automatically download and process Global DEMs via opentopography api
 Please use the below command to download Global DEMs hosted on [opentopography](https://portal.opentopography.org/datasets?minX=-144.3169420909554&minY=63.0617743330481&maxX=-144.2537592884724&maxY=63.09891026182693&group=global) for your region of interest.
 - All global DEMs hosted on opentopography can be specified, such as 'COP30','COP90','SRTMGL1_E','SRTMGL1','SRTM_GL3','NASADEM'
 - The program currently expects either *a shapefile of the region of interest (bounds_shp)*, or *bounds in lat and lon in format as  'minx miny maxx maxy'*
-- for conviniently defining your region of interest as a shapefile, please use ([geojson.io](https://geojson.io/), draw a rectangular bounding box, and save the output geojson block locally in a .geojson file
+- for conviniently defining your region of interest as a shapefile, please use [geojson.io](https://geojson.io/), draw a rectangular bounding box, and save the output geojson block locally in a .geojson file
 - Users must need to provide their opentopography api key
 ```console
 > python download_global_DEM.py -h
@@ -31,5 +31,5 @@ optional arguments:
 - opentopography apikey
 
 **Authors**
-[Shashank Bhushan](https://github.com/ShashankBice),[David Shean](https://github.com/dshean), [Scott Henderson](https://github.com/scottyhq)
+[Shashank Bhushan](https://github.com/ShashankBice), [David Shean](https://github.com/dshean), [Scott Henderson](https://github.com/scottyhq)
 
