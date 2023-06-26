@@ -1,14 +1,10 @@
 # opentopo_dem
-Tool to automatically download and process Global DEMs via opentopography api
+Utility to request, download, and process a user-specified region of the global DEMs available via OpenTopography API
 
+## Background
+OpenTopography hosts several Global DEM datasets (https://portal.opentopography.org/apidocs/#/Public/getGlobalDem) and offers a simple, intuitive API to subset these products. This python script provides a high-level interface to submit an API request for a user-specified region of interest. This can be run interactively, or called by other scripts.
 
-**Usage**
-
-Please use the below command to download Global DEMs hosted on [opentopography](https://portal.opentopography.org/datasets?minX=-144.3169420909554&minY=63.0617743330481&maxX=-144.2537592884724&maxY=63.09891026182693&group=global) for your region of interest.
-- All global DEMs hosted on opentopography can be specified, such as 'COP30','COP90','SRTMGL1_E','SRTMGL1','SRTM_GL3','NASADEM'
-- The program currently expects either *a shapefile of the region of interest (bounds_shp)*, or *bounds in lat and lon in format as  'minx miny maxx maxy'*
-- for conviniently defining your region of interest as a shapefile, please use [geojson.io](https://geojson.io/), draw a rectangular bounding box, and save the output geojson block locally in a .geojson file
-- Users must need to provide their opentopography api key
+## Usage
 ```console
 > python download_global_DEM.py -h
 usage: download_global_DEM.py [-h] [-demtype DEMTYPE] [-extent EXTENT] [-bound_shp BOUND_SHP] -apikey APIKEY [-out_fn OUT_FN] [-out_proj OUT_PROJ]
@@ -25,13 +21,25 @@ optional arguments:
   -out_proj OUT_PROJ    Final projection of output as EPSG code (default: EPSG:4326)
 ```
 
-**Requires**
+### Notes
+- Please create a free account with OpenTopography to receive an API key
+  - https://opentopography.org/blog/introducing-api-keys-access-opentopography-global-datasets
+  - The default `demoapikeyot2022` can be used for testing
+- All global DEMs hosted on opentopography can be specified, such as 'COP30','COP90','SRTMGL1_E','SRTMGL1','SRTM_GL3','NASADEM'
+- The region of interest can be defined with a vector polygon (e.g., shapefile, geojson) passed to `-bound_shp` keyword argument or rectangular extent in lat/lon (bounds 'minx miny maxx maxy')
+- To interactively define a region of interest, we recommend [geojson.io](https://geojson.io/)
+  - Draw a rectangular bounding box
+  - Copy/paste the output geojson block and save as a .geojson file
+  - Pass this .geojson to `-bound_shp`
+
+
+
+## Requirements
 - python 3.8+
 - geopandas
 - requests
-- opentopography apikey
 
-**Authors**
+## Authors
 
 [Shashank Bhushan](https://github.com/ShashankBice), [David Shean](https://github.com/dshean), [Scott Henderson](https://github.com/scottyhq)
 
