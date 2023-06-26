@@ -2,7 +2,7 @@
 Utility to request, download, and process a user-specified region of the global DEMs available via OpenTopography API
 
 ## Background
-OpenTopography hosts several Global DEM datasets (https://portal.opentopography.org/apidocs/#/Public/getGlobalDem) and offers a simple, intuitive API to subset these products. This python script provides a high-level interface to submit an API request for a user-specified region of interest. This can be run interactively, or called by other scripts.
+OpenTopography hosts several Global DEM datasets in cloud-optimized formats (https://portal.opentopography.org/apidocs/#/Public/getGlobalDem) and offers a simple, intuitive API to subset these products on demand. This python script provides a high-level interface to submit an API request for a user-specified region of interest. This can be run interactively, or called by other scripts.
 
 ## Usage
 ```console
@@ -22,17 +22,16 @@ optional arguments:
 ```
 
 ### Notes
-- Please create a free account with OpenTopography to receive an API key
+- Please create a free account with OpenTopography to receive an API key and pass this to `apikey`
   - https://opentopography.org/blog/introducing-api-keys-access-opentopography-global-datasets
   - The default `demoapikeyot2022` can be used for testing
-- All global DEMs hosted on opentopography can be specified, such as 'COP30','COP90','SRTMGL1_E','SRTMGL1','SRTM_GL3','NASADEM'
-- The region of interest can be defined with a vector polygon (e.g., shapefile, geojson) passed to `-bound_shp` keyword argument or rectangular extent in lat/lon (bounds 'minx miny maxx maxy')
+- `demtype` can be any of the global DEMs hosted on opentopography. See link above for latest list.
+  - As of June 2023: `['SRTMGL3', 'SRTMGL1', 'SRTMGL1_E', 'AW3D30', 'AW3D30_E', 'SRTM15Plus', 'NASADEM', 'COP30', 'COP90', 'EU_DTM', 'GEDI_L3']`
+- The region of interest `extent` can be defined with a vector polygon (e.g., shapefile, geojson) filename passed to `-bound_shp` or a rectangular bounding box extent in lat/lon coordinates ('minx miny maxx maxy')
 - To interactively define a region of interest, we recommend [geojson.io](https://geojson.io/)
   - Draw a rectangular bounding box
   - Copy/paste the output geojson block and save as a .geojson file
   - Pass this .geojson to `-bound_shp`
-
-
 
 ## Requirements
 - python 3.8+
