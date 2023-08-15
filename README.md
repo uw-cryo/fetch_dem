@@ -7,18 +7,20 @@ OpenTopography hosts several Global DEM datasets in cloud-optimized formats (htt
 ## Usage
 ```console
 > python download_global_DEM.py -h
-usage: download_global_DEM.py [-h] [-demtype DEMTYPE] [-extent EXTENT] [-bound_shp BOUND_SHP] -apikey APIKEY [-out_fn OUT_FN] [-out_proj OUT_PROJ]
+usage: download_global_DEM.py [-h] [-demtype {SRTMGL3,SRTMGL1,SRTMGL1_E,AW3D30,AW3D30_E,SRTM15Plus,NASADEM,COP30,COP90,EU_DTM,GEDI_L3}] [-extent EXTENT] [-poly_fn POLY_FN] [-apikey APIKEY] [-out_fn OUT_FN]
+                              [-out_proj OUT_PROJ]
 
 utility to download global DEMs from opentopo API for a given extent
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  -demtype DEMTYPE      Select the DEM intended to be downloaded (default: COP30)
-  -extent EXTENT        Bounding box extent in single quotes as 'minx miny maxx maxy' in lat and lon
-  -bound_shp BOUND_SHP  Shapefile specifying extent, if extent is not provided explictly
-  -apikey APIKEY        Opentopgraphy api key
+  -demtype {SRTMGL3,SRTMGL1,SRTMGL1_E,AW3D30,AW3D30_E,SRTM15Plus,NASADEM,COP30,COP90,EU_DTM,GEDI_L3}
+                        Select the DEM intended to be downloaded (default: COP30)
+  -extent EXTENT        Bounding box extent in single quotes as 'minx miny maxx maxy' in EPSG:4326 (latitude and longitude)
+  -poly_fn POLY_FN      Vector dataset filename containing polygon specifying desired extent.
+  -apikey APIKEY        Opentopgraphy API key
   -out_fn OUT_FN        Output filename
-  -out_proj OUT_PROJ    Final projection of output as EPSG code (default: EPSG:4326)
+  -out_proj OUT_PROJ    Output projection string (default: EPSG:4326)
 ```
 
 ### Notes
