@@ -1,5 +1,5 @@
-# opentopo_dem
-Utility to request, download, and process a user-specified region of the global DEMs available via OpenTopography API
+# fetch_dem
+Utility to request, download, and process a user-specified region of the global DEMs available via OpenTopography API. In the future, we plan to add support to fetch DEMs from other resources. 
 
 ## Background
 OpenTopography hosts several Global DEM datasets in cloud-optimized formats (https://portal.opentopography.org/apidocs/#/Public/getGlobalDem) and offers a simple, intuitive API to subset these products on demand. This python script provides a high-level interface to submit an API request for a user-specified region of interest. This can be run interactively, or called by other scripts.
