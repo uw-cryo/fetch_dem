@@ -76,6 +76,25 @@ def run_bash_command(cmd):
         print("Execution failed:", e, file=sys.stderr)
     
 
-    
+vertical_geoid_proj_dict = {
+    'SRTMGL3': 'EPSG:5773',
+    'SRTM15Plus': 'EPSG:5773',
+    'NASADEM': 'EPSG:5773',
+    'COP30': 'EPSG:3855',
+    'COP90': 'EPSG:3855',
+    'EU_DTM': 'EPSG:3855'
+}
+horizontal_crs_dict = {
+    'SRTM_GL1': 'EPSG:4326',
+    'AW3D30': 'EPSG:4326',
+    'SRTM_GL1_E': 'EPSG:4326',
+    'AW3D30_E': 'EPSG:4326',
+    'SRTMGL3': 'EPSG:4326',
+    'SRTM15Plus': 'EPSG:4326',
+    'NASADEM': 'EPSG:4326',
+    'COP30': 'EPSG:4326',
+    'COP90': 'EPSG:4326',
+    'EU_DTM': 'EPSG:3035'
+}
 
     
