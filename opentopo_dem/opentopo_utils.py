@@ -32,10 +32,19 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',output_res=30
     base_url="https://portal.opentopography.org/API/globaldem?demtype={}&west={}&south={}&east={}&north={}&outputFormat=GTiff&API_Key={}"
     if out_fn is None:
         out_fn = '{}.tif'.format(demtype)
+    if demtype in ['SRTMGL3_E','SRTM15Plus_E','NASADEM_E','COP30_E','COP90_E',
+                     'EU_DTM_E']:
+        base_type = demtype.split('_E')[0]
+        print(f"Ellipsoidal versions of base_type is not provided automatically...")
+        print(f"Will perform vertical datum adjustment downstream.....")
+        download_type = base_type
+    else:
+        download_type = demtype
+
     if not os.path.exists(out_fn):
         #Prepare API request url
         #Bounds should be [minlon, minlat, maxlon, maxlat]
-        url = base_url.format(demtype, *bounds, apikey)
+        url = base_url.format(download_type, *bounds, apikey)
         print(url)
         #Get
         response = requests.get(url)
@@ -47,18 +56,36 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',output_res=30
             sys.exit()
         #Write to disk
         open(out_fn, 'wb').write(response.content)
-    if proj != 'EPSG:4326':
+    
+    if (proj != None) | (download_type != demtype):
         #Could avoid writing to disk and direclty reproject with rasterio, using gdalwarp for simplicity
-        proj_fn = os.path.splitext(out_fn)[0]+'_proj.tif'
-        if not os.path.exists(proj_fn):
-            output_res = 30
-            gdalwarp = find_executable('gdalwarp')
-            gdalwarp_call = f"{gdalwarp} -r cubic -co COMPRESS=LZW -co TILED=YES -co BIGTIFF=IF_SAFER -tr {output_res} {output_res} -t_srs '{proj}' {out_fn} {proj_fn}"
-            print(gdalwarp_call)
-            run_bash_command(gdalwarp_call)
-        out_DEM = proj_fn
+        #proj_fn = os.path.splitext(out_fn)[0]+'_proj.tif'
+        
+        #output_res = 30 ## allow GDAL to calculate output res on its own (https://github.com/uw-cryo/fetch_dem/issues/3)
+        gdalwarp = find_executable('gdalwarp')
+        
+        if download_type != demtype:
+            input_horizontal_crs = horizontal_crs_dict["base_type"]
+            input_vertical_crs = vertical_geoid_proj_dict["base_type"]
+            input_crs = f"{input_horizontal_crs}+{input_vertical_crs}"
+            output_crs = f"{output_horizontal_crs}+{output_vertical_crs}"
+            output_horizontal_crs = proj
+            output_vertical_crs = 'EPSG:4979'
+            final_outfn = os.path.splitext(out_fn)[0]+f"_E_{output_horizontal_crs}.tif"
+        else:
+            #this is for vertical height transformation is not required
+            input_crs = f"{horizontal_crs_dict['demtype']}"
+            output_crs = proj
+            output_crs = f"{output_horizontal_crs}+{output_vertical_crs}"
+            final_outfn = os.path.splitext(out_fn)[0]+f"_{output_horizontal_crs}.tif"
+        gdalwarp_call = f"{gdalwarp} -r cubic -co COMPRESS=LZW -co TILED=YES -co BIGTIFF=IF_SAFER -s_srs '{input_crs}' -t_srs '{output_crs}' {out_fn} {final_outfn}"
+        print(gdalwarp_call)
+        run_bash_command(gdalwarp_call)
+        out_DEM = final_outfn
     else:
-        out_DEM = out_fn
+        out_DEM = os.path.splitext(out_fn)[0]+"_{horizontal_crs_dict['demtype']}.tif"
+        shutil.copy(out_fn,out_DEM)
+    os.remove(out_fn)
     return out_DEM
 
 
@@ -77,6 +104,10 @@ def run_bash_command(cmd):
     
 
 vertical_geoid_proj_dict = {
+    'SRTM_GL1_E': 'EPSG:4979',
+    'AW3D30_E': 'EPSG:4979',
+    'SRTM_GL1': 'EPSG:5773',
+    'AW3D30': 'EPSG:5773',
     'SRTMGL3': 'EPSG:5773',
     'SRTM15Plus': 'EPSG:5773',
     'NASADEM': 'EPSG:5773',
