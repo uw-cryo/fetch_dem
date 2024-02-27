@@ -8,7 +8,7 @@ def get_parser():
         parser = argparse.ArgumentParser(description="utility to download global DEMs from opentopo API for a given extent")
         dem_options = ['SRTMGL3', 'SRTMGL3_E', 'SRTMGL1', 'SRTMGL1_E', 'AW3D30', 
                        'AW3D30_E', 'SRTM15Plus', 'SRTM15Plus_E', 'NASADEM', 'NASADEM_E', 
-                       'COP30', 'COP30_E', 'COP90', 'COP90_E', 'EU_DTM', 'EU_DTM_E', 'GEDI_L3']
+                       'COP30', 'COP30_E', 'COP90', 'COP90_E', 'EU_DTM', 'GEDI_L3']
         parser.add_argument('-demtype',type=str,default='COP30', \
                             choices=dem_options,help='Select the DEM intended to be downloaded, postfix "_E" refers to ellipsiodal heights with respect to the WGS84 datum (default: %(default)s)')
         parser.add_argument('-extent',help="Bounding box extent in single quotes as 'minx miny maxx maxy' in EPSG:4326 (latitude and longitude)",
