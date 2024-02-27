@@ -31,6 +31,7 @@ options:
   - The default `demoapikeyot2022` can be used for testing
 - `demtype` can be any of the global DEMs hosted on opentopography. See link above for latest list.
   - As of June 2023: `['SRTMGL3', 'SRTMGL1', 'SRTMGL1_E', 'AW3D30', 'AW3D30_E', 'SRTM15Plus', 'NASADEM', 'COP30', 'COP90', 'EU_DTM', 'GEDI_L3']`
+  - In addition to the above list, the program can also fetch Ellipsoidal versions of the following demtypes : `['SRTMGL3_E','SRTM15Plus_E','NASADEM_E','COP30_E','COP90_E']`. The ellipsoidal heights are computed locally on the user's machine, downstream of opentopography api functionality. 
 - The region of interest `extent` can be defined with a vector polygon (e.g., shapefile, geojson) filename passed to `-bound_shp` or a rectangular bounding box extent in lat/lon coordinates ('minx miny maxx maxy')
 - To interactively define a region of interest, we recommend [geojson.io](https://geojson.io/)
   - Draw a rectangular bounding box
@@ -39,6 +40,7 @@ options:
 
 ## Requirements
 - python 3.8+
+- GDAL 3+
 - geopandas
 - requests
 
