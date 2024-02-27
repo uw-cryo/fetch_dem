@@ -10,7 +10,7 @@ def get_parser():
                        'AW3D30_E', 'SRTM15Plus', 'SRTM15Plus_E', 'NASADEM', 'NASADEM_E', 
                        'COP30', 'COP30_E', 'COP90', 'COP90_E', 'EU_DTM', 'EU_DTM_E', 'GEDI_L3']
         parser.add_argument('-demtype',type=str,default='COP30', \
-                            choices=dem_options,help='Select the DEM intended to be downloaded (default: %(default)s)')
+                            choices=dem_options,help='Select the DEM intended to be downloaded, postfix "_E" refers to ellipsiodal heights with respect to the WGS84 datum (default: %(default)s)')
         parser.add_argument('-extent',help="Bounding box extent in single quotes as 'minx miny maxx maxy' in EPSG:4326 (latitude and longitude)",
             type=str,required=False,default=None)
         parser.add_argument('-poly_fn',help='Vector dataset filename containing polygon specifying desired extent.',
