@@ -86,14 +86,14 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',output_res=30
             #this is for vertical height transformation is not required
             input_crs = f"{horizontal_crs_dict[demtype]}"
             output_crs = proj
-            gdal_edit_crs = output_crs+f"{vertical_geoid_proj_dict[demtype]}"
+            gdal_edit_crs = f"{output_crs}+{vertical_geoid_proj_dict[demtype]}"
             
         gdalwarp_call = f"{gdalwarp} -r cubic -co COMPRESS=LZW -co TILED=YES -co BIGTIFF=IF_SAFER -s_srs '{input_crs}' -t_srs '{output_crs}' {download_fn} {out_fn}"
         print(gdalwarp_call)
         run_bash_command(gdalwarp_call)
     else:
         shutil.copy2(download_fn,out_fn)
-        gdal_edit_crs = f"{horizontal_crs_dict[demtype]}"+f"{vertical_geoid_proj_dict[demtype]}"
+        gdal_edit_crs = f"{horizontal_crs_dict[demtype]}+{vertical_geoid_proj_dict[demtype]}"
     os.remove(download_fn)
     gdal_edit_cmd = find_executable('gdal_edit.py')
     gdal_edit_call = f"{gdal_edit_cmd} {out_fn} -a_srs {gdal_edit_crs}"
@@ -115,9 +115,9 @@ def run_bash_command(cmd):
     
 
 vertical_geoid_proj_dict = {
-    'SRTM_GL1_E': 'EPSG:4979',
+    'SRTMGL1_E': 'EPSG:4979',
     'AW3D30_E': 'EPSG:4979',
-    'SRTM_GL1': 'EPSG:5773',
+    'SRTMGL1': 'EPSG:5773',
     'AW3D30': 'EPSG:5773',
     'SRTMGL3': 'EPSG:5773',
     'SRTM15Plus': 'EPSG:5773',
