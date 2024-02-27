@@ -7,20 +7,22 @@ OpenTopography hosts several Global DEM datasets in cloud-optimized formats (htt
 ## Usage
 ```console
 > python download_global_DEM.py -h
-usage: download_global_DEM.py [-h] [-demtype {SRTMGL3,SRTMGL1,SRTMGL1_E,AW3D30,AW3D30_E,SRTM15Plus,NASADEM,COP30,COP90,EU_DTM,GEDI_L3}] [-extent EXTENT] [-poly_fn POLY_FN] [-apikey APIKEY] [-out_fn OUT_FN]
-                              [-out_proj OUT_PROJ]
+usage: download_global_DEM.py [-h]
+                              [-demtype {SRTMGL3,SRTMGL3_E,SRTMGL1,SRTMGL1_E,AW3D30,AW3D30_E,SRTM15Plus,SRTM15Plus_E,NASADEM,NASADEM_E,COP30,COP30_E,COP90,COP90_E,EU_DTM,GEDI_L3}]
+                              [-extent EXTENT] [-poly_fn POLY_FN] [-apikey APIKEY] [-out_fn OUT_FN] [-out_proj OUT_PROJ]
 
 utility to download global DEMs from opentopo API for a given extent
 
 options:
   -h, --help            show this help message and exit
-  -demtype {SRTMGL3,SRTMGL1,SRTMGL1_E,AW3D30,AW3D30_E,SRTM15Plus,NASADEM,COP30,COP90,EU_DTM,GEDI_L3}
-                        Select the DEM intended to be downloaded (default: COP30)
+  -demtype {SRTMGL3,SRTMGL3_E,SRTMGL1,SRTMGL1_E,AW3D30,AW3D30_E,SRTM15Plus,SRTM15Plus_E,NASADEM,NASADEM_E,COP30,COP30_E,COP90,COP90_E,EU_DTM,GEDI_L3}
+                        Select the DEM intended to be downloaded, postfix "_E" refers to ellipsiodal heights with respect to the WGS84 datum (default: COP30)
   -extent EXTENT        Bounding box extent in single quotes as 'minx miny maxx maxy' in EPSG:4326 (latitude and longitude)
   -poly_fn POLY_FN      Vector dataset filename containing polygon specifying desired extent.
   -apikey APIKEY        Opentopgraphy API key
-  -out_fn OUT_FN        Output filename
-  -out_proj OUT_PROJ    Output projection string (default: EPSG:4326)
+  -out_fn OUT_FN        Desired output filename, the program appends output horizontal crs EPSG code at the end
+  -out_proj OUT_PROJ    Output EPSG code for horizontal CRS (e.g., EPSG:4326, EPSG:32610); if not provided, will default to opentopography provided
+                        horizontal CRS
 ```
 
 ### Notes
