@@ -2,7 +2,7 @@
 
 import argparse
 import geopandas as gpd
-from opentopo_dem import opentopo_utils
+from fetch_dem import opentopo_utils
 
 def get_parser():
         parser = argparse.ArgumentParser(description="utility to download global DEMs from opentopo API for a given extent")
