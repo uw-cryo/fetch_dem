@@ -59,6 +59,8 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',output_res=30
             sys.exit()
         #Write to disk
         open(download_fn, 'wb').write(response.content)
+        gdal_edit_call = f"gdal_edit.py {download_fn} -a_nodata {-9999}  -ro"
+        run_bash_command(gdal_edit_call)
     
     if (proj != None) | (download_type != demtype):
         #Could avoid writing to disk and direclty reproject with rasterio, using gdalwarp for simplicity

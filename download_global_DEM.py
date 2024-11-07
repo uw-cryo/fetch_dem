@@ -38,7 +38,7 @@ def main():
         if args.vector_fn is not None:
             if os.path.exists(args.vector_fn):
                 bounds = gpd.read_file(args.vector_fn).to_crs('EPSG:4326')
-                minx,miny,maxx,maxy = bound.total_bounds
+                minx,miny,maxx,maxy = bounds.total_bounds
             else:
                 sys.exit(f"Input file not found: {args.vector_fn}")
         elif args.raster_fn is not None:
