@@ -1,9 +1,11 @@
 #! /usr/bin/env python
 
 import os,sys,glob,shutil
+import geopandas as gpd
+import shapely
 import subprocess
 
-def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',output_res=30):
+def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',local_utm=False,output_res=30):
     """
     download a DEM of choice from OpenTopography World DEM
     ## first written by David Shean
@@ -19,6 +21,8 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',output_res=30
         path to output filename
     proj: str
         output DEM projection
+    local_utm: bool
+        if True, will use local UTM projection for the output DEM, overrides proj
     output_res: numeric
         resolution of output DEM (default 30 m)
     Returns
@@ -62,7 +66,7 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',output_res=30
         gdal_edit_call = f"gdal_edit.py {download_fn} -a_nodata {-9999}  -ro"
         run_bash_command(gdal_edit_call)
     
-    if (proj != None) | (download_type != demtype):
+    if (local_utm) | (proj != None) | (download_type != demtype):
         #Could avoid writing to disk and direclty reproject with rasterio, using gdalwarp for simplicity
         #proj_fn = os.path.splitext(out_fn)[0]+'_proj.tif'
         
@@ -75,7 +79,12 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',output_res=30
             input_crs = f"{input_horizontal_crs}+{input_vertical_crs}"
             
             if proj == None:
-                proj = input_horizontal_crs
+                if local_utm:
+                    gdf = gpd.GeoDataFrame(geometry=[shapely.geometry.box(bounds[0],bounds[1],bounds[2],bounds[3])],crs='EPSG:4326')    
+                    epse_code = gdf.estimate_utm_crs().to_epsg()
+                    proj = f"EPSG:{epse_code}"
+                else:
+                    proj = input_horizontal_crs
             output_horizontal_crs = proj
             if (base_type == 'EU_DTM') & (proj == horizontal_crs_dict['EU_DTM']):
                 output_vertical_crs = 'EPSG:7912' #GRS80 ellipsoidal heights

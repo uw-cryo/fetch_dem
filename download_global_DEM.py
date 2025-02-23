@@ -24,7 +24,8 @@ def get_parser():
         parser.add_argument('-pad',help='Pad bounds (deg)',type=float,default=0,required=False)
         parser.add_argument('-apikey',help='Opentopgraphy API key',type=str,default='demoapikeyot2022',required=False)
         parser.add_argument('-out_fn',help='Desired output filename, the program appends output horizontal crs EPSG code at the end',type=str,default=None)
-        parser.add_argument('-out_proj',type=str,default=None,help='Output EPSG code for horizontal CRS (e.g., EPSG:4326, EPSG:32610); if not provided, will default to opentopography provided horizontal CRS')
+        parser.add_argument('-local_utm',help='Use local UTM projection for the output DEM (default: %(default)s)',action='store_true')
+        parser.add_argument('-out_proj',type=str,default=None,help='Output EPSG code for horizontal CRS (e.g., EPSG:4326, EPSG:32610); if non-local UTM CRS is desired. In case "-local_utm" or this option is not selected, will default to opentopography provided horizontal CRS')
         return parser
 
 
@@ -52,7 +53,7 @@ def main():
     bounds = [float(minx),float(miny),float(maxx),float(maxy)]
     bounds = [bounds[0] - args.pad, bounds[1] - args.pad, bounds[2] + args.pad, bounds[3] + args.pad]
     print(bounds)
-    opentopo_utils.get_dem(demtype=args.demtype, bounds=bounds, apikey=args.apikey, out_fn=args.out_fn, proj=args.out_proj)
+    opentopo_utils.get_dem(demtype=args.demtype, bounds=bounds, apikey=args.apikey, out_fn=args.out_fn, local_utm = args.local_utm, proj=args.out_proj)
 
 if __name__=="__main__":
     main()
