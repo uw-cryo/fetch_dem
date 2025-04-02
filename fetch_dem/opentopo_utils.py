@@ -36,6 +36,9 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',local_utm=Fal
     base_url="https://portal.opentopography.org/API/globaldem?demtype={}&west={}&south={}&east={}&north={}&outputFormat=GTiff&API_Key={}"
     if out_fn is None:
         out_fn = '{}.tif'.format(demtype)
+    dirname = os.path.dirname(out_fn)
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
     download_fn = os.path.splitext(out_fn)[0]+"_temp.tif"
     if demtype in ['SRTMGL3_E','SRTM15Plus_E','NASADEM_E','COP30_E','COP90_E',
                      'EU_DTM_E']:
