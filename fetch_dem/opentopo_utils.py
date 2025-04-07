@@ -37,6 +37,8 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',local_utm=Fal
     if out_fn is None:
         out_fn = '{}.tif'.format(demtype)
     dirname = os.path.dirname(out_fn)
+    if dirname == '':
+        dirname = os.getcwd()
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     download_fn = os.path.splitext(out_fn)[0]+"_temp.tif"
