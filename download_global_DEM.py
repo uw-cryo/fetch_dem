@@ -22,7 +22,7 @@ def get_parser():
         group.add_argument('-raster_fn',help='Raster dataset filename specifying desired extent.',
             type=str,required=False,default=None)
         parser.add_argument('-pad',help='Pad bounds (deg)',type=float,default=0,required=False)
-        parser.add_argument('-apikey',help='Opentopgraphy API key',type=str,default='demoapikeyot2022',required=False)
+        parser.add_argument('-apikey',help='Opentopgraphy API key',default=None,type=str,required=False)
         parser.add_argument('-out_fn',help='Desired output filename, the program appends output horizontal crs EPSG code at the end',type=str,default=None)
         parser.add_argument('-local_utm',help='Use local UTM projection for the output DEM (default: %(default)s)',action='store_true')
         parser.add_argument('-out_proj',type=str,default=None,help='Output EPSG code for horizontal CRS (e.g., EPSG:4326, EPSG:32610); if non-local UTM CRS is desired. In case "-local_utm" or this option is not selected, will default to opentopography provided horizontal CRS')
@@ -53,6 +53,11 @@ def main():
     bounds = [float(minx),float(miny),float(maxx),float(maxy)]
     bounds = [bounds[0] - args.pad, bounds[1] - args.pad, bounds[2] + args.pad, bounds[3] + args.pad]
     print(bounds)
+    if args.apikey is None:
+        #Attempt to read from OT_API_KEY environmental variable
+        args.apikey = opentopo_utils.get_ot_apikey()
+        if args.apikey is None:
+            sys.exit("\nMissing OpenTopography API key.\nFor convenience, can set OT_API_KEY environmental variable, which will be read automatically.\nSee https://opentopography.org/blog/introducing-api-keys-access-opentopography-global-datasets for details.")
     opentopo_utils.get_dem(demtype=args.demtype, bounds=bounds, apikey=args.apikey, out_fn=args.out_fn, local_utm = args.local_utm, proj=args.out_proj)
 
 if __name__=="__main__":
