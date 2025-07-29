@@ -5,6 +5,12 @@ import geopandas as gpd
 import shapely
 import subprocess
 
+def get_ot_apikey(variable_name='OT_API_KEY'):
+    apikey = None
+    if variable_name in os.environ:
+        apikey=os.environ[variable_name]
+    return apikey
+
 def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',local_utm=False,output_res=30):
     """
     download a DEM of choice from OpenTopography World DEM
@@ -32,7 +38,6 @@ def get_dem(demtype, bounds, apikey, out_fn=None, proj='EPSG:4326',local_utm=Fal
     """
     import requests
     from distutils.spawn import find_executable
-    ### first written by David Shean (dshean@uw.edu)
     base_url="https://portal.opentopography.org/API/globaldem?demtype={}&west={}&south={}&east={}&north={}&outputFormat=GTiff&API_Key={}"
     if out_fn is None:
         out_fn = '{}.tif'.format(demtype)
